@@ -1,0 +1,33 @@
+[package]
+name = "xsia-auditing"
+version = "0.1.0"
+edition = "2024"
+description = "Model auditing for SeaORM (port of owen-it/laravel-auditing) with Salvo and Loco integrations"
+license = "MIT"
+
+[features]
+default = []
+sqlite = ["sea-orm/sqlx-sqlite"]
+postgres = ["sea-orm/sqlx-postgres"]
+mysql = ["sea-orm/sqlx-mysql"]
+salvo = ["dep:salvo"]
+loco = ["dep:loco-rs", "dep:axum"]
+
+[dependencies]
+sea-orm = { version = "2.0", default-features = false, features = ["macros", "with-json", "with-chrono", "runtime-tokio"] }
+sea-orm-migration = { version = "2.0", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+tokio = { version = "1", features = ["rt", "macros"] }
+thiserror = "2"
+async-trait = "0.1"
+salvo = { version = "0.95", optional = true, default-features = false, features = ["server", "http1"] }
+loco-rs = { version = "1.3", optional = true, default-features = false, features = ["with-db"] }
+axum = { version = "0.8", optional = true }
+
+[dev-dependencies]
+sea-orm = { version = "2.0", features = ["sqlx-sqlite", "runtime-tokio", "macros", "with-json", "with-chrono"] }
+sea-orm-migration = { version = "2.0", features = ["sqlx-sqlite", "runtime-tokio"] }
+tokio = { version = "1", features = ["full"] }
+salvo = { version = "0.95", features = ["test"] }
